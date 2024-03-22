@@ -3,6 +3,7 @@ package HotelSearchTest;
 import static org.testng.Assert.ARRAY_MISMATCH_TEMPLATE;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -11,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import net.bytebuddy.implementation.bytecode.ByteCodeAppender.Size;
 
 public class BookingHotelTestCases extends Parameters {
 
@@ -53,4 +56,29 @@ public class BookingHotelTestCases extends Parameters {
 		WebElement searchhotelbutton = driver.findElement(By.xpath("//button[@data-testid='HotelSearchBox__SearchButton']"));
 		searchhotelbutton.click();
 	}
+	@Test(priority = 3)
+	public void PageFullyComplete() throws InterruptedException {
+		Thread.sleep(20000);
+		WebElement resultsfound = driver.findElement(By.xpath("//span[@data-testid='HotelSearchResult__resultsFoundCount']"));
+		String resultsfoundText = resultsfound.getText();
+		myassert.assertEquals(resultsfoundText.contains("found"), true);
+	}
+	@Test(priority = 4)
+	public void sortpricesfromloetohigh() throws InterruptedException {
+		WebElement LowesPriceButton = driver.findElement(By.xpath("//button[@data-testid='HotelSearchResult__sort__LOWEST_PRICE']"));
+		LowesPriceButton.click();
+		Thread.sleep(3000);
+		WebElement ContainerOfThePrices = driver.findElement(By.cssSelector(".sc-htpNat.KtFsv.col-9"));
+		
+		List<WebElement> Prices = ContainerOfThePrices.findElements(By.className("Price__Value"));
+		int firstPrices = Integer.parseInt(Prices.get(0).getText()) ;Prices.get(0).getText();
+		int lastPrices = Integer.parseInt(Prices.get(Prices.size()-1).getText());
+		
+		System.out.println(firstPrices);
+		System.out.println(lastPrices);
+		myassert.assertEquals(firstPrices<lastPrices, true);
+		
+		
+	}
+		
 }
