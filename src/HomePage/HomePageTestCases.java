@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 public class HomePageTestCases extends Parameters {
 
+	private static final String priority = null;
 	@BeforeTest
 	public void mySetup() {
 		driver.manage().window().maximize();
@@ -28,7 +29,7 @@ public class HomePageTestCases extends Parameters {
 	@Test()
 	public void CheckTheDefaultLanguageIsEnglish() {
 		String ActualLanguage = driver.findElement(By.tagName("html")).getAttribute("lang");
-		myAssert.assertEquals(ActualLanguage, ExpectedLanguage);
+		myAssert.assertEquals(ActualLanguage, ExpectedEnglishLanguage);
 
 	}
 
@@ -81,4 +82,23 @@ public class HomePageTestCases extends Parameters {
 		myAssert.assertEquals(ActualReturnDateOnTheWebSiteNumber, TheDayAfterTomorrow);
 
 	}
-}
+	@Test()
+	public void ChangeLanguageRandomly() {
+		driver.get(websites[randomwebsite]);
+		if (driver.getCurrentUrl().contains("en")) {
+			
+		String ActualLanguage = driver.findElement(By.tagName("html")).getAttribute("lang");
+		myAssert.assertEquals(ActualLanguage, ExpectedEnglishLanguage);
+		
+		}else {
+			String ActualLanguage = driver.findElement(By.tagName("html")).getAttribute("lang");
+			myAssert.assertEquals(ActualLanguage, ExpectedArabicLanguage);
+
+		}
+
+		}
+		
+	}
+	
+	
+
